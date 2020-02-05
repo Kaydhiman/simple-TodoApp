@@ -33,8 +33,7 @@ let render = () => {
 }
 
 
-// set task to localstoragef
-
+// set task to localstorage
 let setData = () => {
     let task = new Task(taskName.value);
     tasks.push(task);
@@ -44,15 +43,16 @@ let setData = () => {
 
 // delete item from task list
 let deleteData = () => {
-    let taskList = document.querySelectorAll('.show-tasks h3');
-
-    taskList.forEach(item => {
-        item.addEventListener('click', () => {
-            let dataId = item.dataset.id;
-
-            tasks.splice([dataId - 1], 1);
-            console.log(tasks)
-        })
+    showTask.addEventListener('click', e => {
+        if(e.target.dataset.id){
+            for(let i in tasks) {
+                if(tasks[i].id === parseInt(e.target.dataset.id)) {
+                    tasks.splice(i,1);
+                    localStorage.setItem('task', JSON.stringify(tasks));
+                    render();
+                }
+            }
+        }
     })
 }
 
